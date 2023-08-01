@@ -32,6 +32,7 @@ class="nav-link active" aria-current="page"
     In the second pass you saw the same samples, however, the feature visualization came from a different model (dense vs sparse).<br>
     In the third pass, you already saw each sample twice, so you might remember your previous choices and select the other image;<br>
     therefore this pass results are less reliable.</p>
+        {% if user.is_admin %}
         <div class=" p-md-4 d-flex flex-row justify-content-center align-items-center" >
             <table  class="table table-dark">
 <thead class="thead-light">
@@ -54,7 +55,7 @@ class="nav-link active" aria-current="page"
 </tbody>
 </table>
         </div>
-
+{% endif %}
 
         {% if user.is_admin %}
 {% for user_email in all_user_results.keys() %}
@@ -84,16 +85,19 @@ class="nav-link active" aria-current="page"
 {% endif %}
         <a href="/all_answers"> All of your Answers in detail!</a>
     {% endif %}
+
+{% if user.is_admin %}
 <div class=" p-md-4 d-flex flex-row justify-content-center align-items-center" >
     <p> A histogram that shows how much time you spend on answering tasks.</p>
 </div>
 <div class=" p-md-4 d-flex flex-row justify-content-center align-items-center" >
 <canvas id="spendTime"></canvas>
 </div>
+{% endif %}
 
-
-
+ {% if user.is_admin %}
 <script>
+
 var ctx = document.getElementById('spendTime').getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
@@ -123,6 +127,7 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
+{% endif %}
 </div>
 
 {% endblock %}
