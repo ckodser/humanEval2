@@ -33,7 +33,7 @@ class="nav-link active" aria-current="page"
     In the third pass, you already saw each sample twice, so you might remember your previous choices and select the other image;<br>
     therefore this pass results are less reliable.</p>
         <div class=" p-md-4 d-flex flex-row justify-content-center align-items-center" >
-<table  class="table table-dark">
+            <table  class="table table-dark">
 <thead class="thead-light">
 <tr>
     <th scope="col">Pass</th>
@@ -54,6 +54,34 @@ class="nav-link active" aria-current="page"
 </tbody>
 </table>
         </div>
+
+
+        {% if user.is_admin %}
+{% for user_email in all_user_results.keys() %}
+        <div class=" p-md-4 d-flex flex-row justify-content-center align-items-center" >
+            <table  class="table table-dark">
+<thead class="thead-light">
+<tr>
+    <th scope="col">{{ user_email }}</th>
+    {%for model in models%}
+          <th scope="col">{{ model }}</th>
+    {%endfor%}
+</tr>
+</thead>
+<tbody>
+  {%for pass in results.keys()%}
+      <tr>
+      <th scope="row">{{ pass }}</th>
+    {%for model in models%}
+        <td>{{ all_user_results[user_email][pass][model]['accuracy'] }}% <small><small>({{ all_user_results[user_email][pass][model]['count']}} samples)</small></small></td>
+    {%endfor%}
+      </tr>
+  {%endfor%}
+</tbody>
+</table>
+        {% endfor %}
+        </div>
+{% endif %}
         <a href="/all_answers"> All of your Answers in detail!</a>
     {% endif %}
 <div class=" p-md-4 d-flex flex-row justify-content-center align-items-center" >

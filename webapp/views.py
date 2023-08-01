@@ -7,7 +7,7 @@ import string
 from flask import *
 from flask_login import current_user, login_required
 from webapp import db
-from .models import Record, batch_size, Encrypt
+from .models import Record, batch_size, Encrypt,User
 from .models import models as Mmodels
 
 views = Blueprint("views", __name__)
@@ -30,7 +30,6 @@ def send_image(id):
     raw = Encrypt.query.filter_by(enc=id).first().raw
     print(raw.lstrip("/"))
     return send_file(raw.lstrip("/"), mimetype='image/png')
-
 
 def get_record_result(record):
     if record.choice == "option0":
@@ -76,6 +75,11 @@ def get_results(user):
             results[pass_num][model] = get_detail(user, pass_num, model)
     return results
 
+def get_all_user_results():
+    results={}
+    for user in User.query.filter().all():
+        results[user.email]=get_results(user)
+    return results
 
 def get_time_deltas(user):
     time_deltas = {}
@@ -252,9 +256,15 @@ def settings():
         results = get_results(current_user)
         counts, bin_edges = time_deltas_to_bins(get_time_deltas(current_user))
         print(counts, bin_edges)
-        return render_template(f"setting.html", taskCount=len(Record.query.filter_by(user_id=current_user.id).all()),
-                               user=current_user, results=results, models=Mmodels,
-                               counts=counts, bins=list(bin_edges))
+        if current_user.is_admin:
+            return render_template(f"setting.html",
+                                   taskCount=len(Record.query.filter_by(user_id=current_user.id).all()),
+                                   user=current_user, results=results, models=Mmodels,
+                                   counts=counts, bins=list(bin_edges), all_user_results=get_all_user_results())
+        else:
+            return render_template(f"setting.html", taskCount=len(Record.query.filter_by(user_id=current_user.id).all()),
+                                   user=current_user, results=results, models=Mmodels,
+                                   counts=None, bins=list(bin_edges))
 
 
 @views.route('/all_answers', methods=['GET'])
