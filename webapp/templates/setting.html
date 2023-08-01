@@ -83,7 +83,9 @@ class="nav-link active" aria-current="page"
         </div>
 {% endfor %}
 {% endif %}
+         {% if user.is_admin %}
         <a href="/all_answers"> All of your Answers in detail!</a>
+             {% endif %}
     {% endif %}
 
 {% if user.is_admin %}
