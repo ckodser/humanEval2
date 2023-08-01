@@ -264,7 +264,7 @@ def settings():
         else:
             return render_template(f"setting.html", taskCount=len(Record.query.filter_by(user_id=current_user.id).all()),
                                    user=current_user, results=results, models=Mmodels,
-                                   counts=None, bins=list(bin_edges))
+                                   counts=counts, bins=list(bin_edges))
 
 
 @views.route('/all_answers', methods=['GET'])
