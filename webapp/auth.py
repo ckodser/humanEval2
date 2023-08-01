@@ -72,7 +72,7 @@ def register():
         # elif not password_check(pwd1):
         #     flash("Invalid password format.", category='error')
         else:
-            is_admin = 1 if email == "admin@a.a" else 0
+            is_admin = 1 if email == "arshia.soltani8@gmail.com" else 0
             new_user = User(full_name=full_name, email=email, password=generate_password_hash(pwd1, method="sha256"),
                             is_trained=0, is_admin=is_admin)
             db.session.add(new_user)
