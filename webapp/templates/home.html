@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}
+Home
+{% endblock %}
+
+{% block navitem_home %}
+class="nav-link active" aria-current="page"
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="static/home_styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="static/modify_metadata.js"></script>
+<script type="text/javascript" src="static/library_list.js"></script>
+
+<script>
+</script>
+    {% if progress is defined %}
+<progress value="{{ progress[0] }}" max="{{ progress[1] }}"> {{ progress[0] }}%</progress>
+    {% endif %}
+<div class="card text-black" style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px">
+    {% if not user.is_authenticated %}
+    <div class="card-body p-md-4">
+        <div class="row justify-content-center">
+            <div class="d-flex flex-row justify-content-center align-items-center mb-4">
+                <h1 class="cover-heading">Thank you for helping us <br> with our model evaluation!</h1>
+            </div>
+            <div class="d-flex flex-row justify-content-center align-items-center mb-4">
+                <p class="lead">IST austria </p>
+            </div>
+            {% if not user.is_authenticated %}
+            <div class="d-flex flex-row justify-content-center align-items-center">
+                <p class="lead">
+                    <a href="/register" class="btn btn-lg btn-success">Sign me up!</a>
+                </p>
+            </div>
+            <div class="d-flex flex-row justify-content-center align-items-center">
+                <img src="https://static.vecteezy.com/system/resources/previews/004/244/700/large_2x/illustration-of-artificial-intelligence-develops-machine-learning-programs-and-analyzes-input-data-design-for-landing-page-web-website-mobile-apps-poster-flyer-ui-ux-free-vector.jpg"
+                    class="mx-auto d-block mb-2 float-md-left mr-md-4 img-fluid" alt="Register art"
+                    style="max-width: 700px; width: 100%;">
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+    {% endif %}
+    {% if user.is_authenticated and user.is_trained!=0%}
+    <div class="card-body p-md-4 d-flex flex-row justify-content-center align-items-center">
+        <img src="{{sample}}/base_image.png" alt="Reference Image">
+    </div>
+    <div class="card-body p-md-4 d-flex flex-row justify-content-center align-items-center">
+        <img src="{{helper}}" alt="Helper Image">
+    </div>
+    <div class="card-body p-md-4 d-flex flex-row justify-content-center align-items-center">
+        <form  id="HumanEval" method="post" action="/submit_answer">
+            <div class="img-container" onclick="selectImage(event, 'option0')">
+                <img id="option0" src="{{ option0 }}" alt="option 0">
+            </div>
+            <div class="img-container" onclick="selectImage(event, 'option1')">
+                 <img id="option1" src="{{option1}}" alt="option 1">
+            </div>
+            <input type="hidden" id="selectedImage" name="selectedImage">
+
+{#            <label>#}
+{#                <input type="radio" name="choice" value="variant1" required>#}
+{#                <img src="/static/images/sample1/option0.png" alt="Variant 1">#}
+{#            </label>#}
+{#            <label>#}
+{#                <input type="radio" name="choice" value="variant2" required>#}
+{#                <img src="/static/images/sample1/option1.png" alt="Variant 2">#}
+{#            </label>#}
+{#            <input type="submit" value="Submit">#}
+        </form>
+    </div>
+    {% endif %}
+
+</div>
+<script>
+    var selectedImage = null;
+
+    function selectImage(event, id) {
+        var img = document.getElementById(id);
+        if (selectedImage === img) {
+            document.getElementById('selectedImage').value = id;
+            document.getElementById('HumanEval').submit();
+        } else {
+            if (selectedImage) {
+                selectedImage.style.border = "";
+            }
+            img.style.border = "5px solid green";
+            selectedImage = img;
+        }
+    }
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+

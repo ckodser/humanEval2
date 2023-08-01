@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{% block title %}OFS{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+            crossorigin="anonymous"
+        >
+        <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
+<!--        &lt;!&ndash; CSS only &ndash;&gt;-->
+<!--        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--              integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">-->
+<!--        &lt;!&ndash; JavaScript Bundle with Popper &ndash;&gt;-->
+<!--        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"-->
+<!--                integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"-->
+<!--                crossorigin="anonymous"></script>-->
+        <style>
+            .img-container {
+                display: inline-block;
+                margin: 10px;
+            }
+        </style>
+
+    </head>
+    <body class="text-center">
+
+    <section class="vh-100" style="background-color: #eee;">
+        <div class="container-fluid shadow-sm md-5 bg-dark">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+                    <div class="container-md">
+                        <a class="navbar-brand mb-0 h1" href="/">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1.25em" fill="currentColor"
+                                    class="bi bi-archive d-inline-block align-text-top" viewBox="0 0 16 16">
+                                <path
+                                    d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                            </svg>
+                            HuEv
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarToggler" aria-controls="navbarToggler"
+                                aria-expanded="false" aria-label="Toggle Navigation">
+                            <span class="navbar-toggler-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-list"
+                                        viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                                </svg>
+                            </span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarToggler">
+                            <div class="navbar-nav navbar-nav-scroll me-auto" style="--bs-scroll-height: 100px;">
+                                {% if user.is_authenticated %}
+                                    <a {% block navitem_home %} class="nav-link" {% endblock %} href="/">Home</a>
+                                {% endif %}
+                            </div>
+
+                            <div class="navbar-nav navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                                {% if user.is_authenticated %}
+                                    <a {% block navitem_settings %} class="nav-link" {% endblock %} href="/settings">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill"
+                                            viewBox="0 0 16 16">
+                                            <path
+                                                d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+                                        </svg>
+                                    </a>
+                                    <a {% block navitem_logout %} class="nav-link" {% endblock %} href="/logout">Logout</a>
+                                {% else %}
+                                    <a {% block navitem_register %} class="nav-link" {% endblock %} href="/register">Register</a>
+                                    <a {% block navitem_login %} class="nav-link" {% endblock %} href="/login">Login</a>
+                                {% endif %}
+
+                                {% block searchbar %}{% endblock %}
+                            </div>
+                        </div>          
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                            <div class="row d-flex justify-content-center align-items-center h-100">
+                                {{ message }}
+                                &nbsp;
+                                <button type="button" class="btn-close" style="font-size: 10px;" aria-label="Close"
+                                    data-bs-dismiss="alert"></button>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-success alter-dismissable fade show" role="alert">
+                            <div class="row d-flex justify-content-center align-items-center h-100">
+                                {{ message }}
+                                &nbsp;
+                                <button type="button" class="btn-close" style="font-size: 10px;" aria-label="Close"
+                                    data-bs-dismiss="alert"></button>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="container">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-12 col-xl-11">
+                    {% block content %}
+                    This is the template page.
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="fixed-bottom">
+        <footer class="mt-auto">
+            <div class="inner">
+                <p></p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous">
+    </script>
+    {% block javascript %}
+    {% endblock %}
+    </body>
+</html>

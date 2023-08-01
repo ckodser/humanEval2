@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}
+Setting
+{% endblock %}
+
+{% block navitem_home %}
+class="nav-link active" aria-current="page"
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="static/home_styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="static/modify_metadata.js"></script>
+<script type="text/javascript" src="static/library_list.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<div class="card text-black" style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px">
+    {% if  user.is_authenticated %}
+        <div class="card-body p-md-4 d-flex flex-row justify-content-center align-items-center">
+        <br>
+        <form action="/resetTraining" method="post">
+            <button type="submit" class="btn btn-primary">reset training</button>
+        </form>
+        ----
+        <form action="/removeAllAnswers" method="post">
+            <button type="submit" class="btn btn-primary">remove my {{ taskCount }} answers</button>
+        </form>
+        <br>
+        </div>
+        <p>The test had three passes, in first pass you saw samples for the first time.<br>
+    In the second pass you saw the same samples, however, the feature visualization came from a different model (dense vs sparse).<br>
+    In the third pass, you already saw each sample twice, so you might remember your previous choices and select the other image;<br>
+    therefore this pass results are less reliable.</p>
+        <div class=" p-md-4 d-flex flex-row justify-content-center align-items-center" >
+<table  class="table table-dark">
+<thead class="thead-light">
+<tr>
+    <th scope="col">Pass</th>
+    {%for model in models%}
+          <th scope="col">{{ model }}</th>
+    {%endfor%}
+</tr>
+</thead>
+<tbody>
+  {%for pass in results.keys()%}
+      <tr>
+      <th scope="row">{{ pass }}</th>
+    {%for model in models%}
+        <td>{{ results[pass][model]['accuracy'] }}% <small><small>({{ results[pass][model]['count']}} samples)</small></small></td>
+    {%endfor%}
+      </tr>
+  {%endfor%}
+</tbody>
+</table>
+        </div>
+        <a href="/all_answers"> All of your Answers in detail!</a>
+    {% endif %}
+<div class=" p-md-4 d-flex flex-row justify-content-center align-items-center" >
+    <p> A histogram that shows how much time you spend on answering tasks.</p>
+</div>
+<div class=" p-md-4 d-flex flex-row justify-content-center align-items-center" >
+<canvas id="spendTime"></canvas>
+</div>
+
+
+
+<script>
+var ctx = document.getElementById('spendTime').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ bins[:-1]|tojson }},
+        datasets: [{
+            label: {{models[0]|tojson}},
+            data: {{ counts[models[0]]|tojson }},
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        },
+        {
+            label: {{models[1]|tojson }},
+            data: {{ counts[models[1]]|tojson }},
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}
+Training
+{% endblock %}
+
+{% block navitem_home %}
+class="nav-link active" aria-current="page"
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="static/home_styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="static/modify_metadata.js"></script>
+<script type="text/javascript" src="static/library_list.js"></script>
+
+<script>
+</script>
+
+
+<div class="card text-black" style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px">
+    {% if user.is_authenticated%}
+        <p>In this activity, you will see images displayed on your screen. You are asked to respond by <b>double-clicking</b> the image of your choice.</p>
+        <p>At the top of the screen, you'll see an image that we gave to the model, and strongly activates the model.</p>
+        <p> We want to know why this image activates the model.</p>
+        <p>To understand the model's behavior better, we then show an image that embodies the pattern the model is looking for.</p>
+        <p> It means that the model is also intensely activated by this pattern. </p>
+        <p>Next, you'll observe two sections from the image in the first row. <br>
+            Your task is to determine which of these sections corresponds to the area that triggers the model, and then activate it.</p>
+
+        </form>
+        <div class="card-body p-md-4 d-flex flex-row justify-content-center align-items-center">
+        <a href="/training/1"> Next </a>
+    </div>
+
+    </div>
+    {% endif %}
+
+</div>
+<script>
+    var selectedImage = null;
+
+    function selectImage(event, id) {
+        var img = document.getElementById(id);
+        if (selectedImage === img) {
+            document.getElementById('selectedImage').value = id;
+            document.getElementById('HumanEval').submit();
+        } else {
+            if (selectedImage) {
+                selectedImage.style.border = "";
+            }
+            img.style.border = "5px solid green";
+            selectedImage = img;
+        }
+    }
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+

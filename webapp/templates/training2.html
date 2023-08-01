@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}
+Training
+{% endblock %}
+
+{% block navitem_home %}
+class="nav-link active" aria-current="page"
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="static/home_styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="static/modify_metadata.js"></script>
+<script type="text/javascript" src="static/library_list.js"></script>
+
+<script>
+</script>
+
+
+<div class="card text-black" style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px">
+    {% if user.is_authenticated%}
+    <div class="card-body p-md-4 d-flex flex-row justify-content-center align-items-center">
+        <img src="/static/images/Training_sample/base_image.png" alt="Reference Image">
+    </div>
+        <p>The model appears to be activated by an image resembling a dog's face.</p>
+    <div class="card-body p-md-4 d-flex flex-row justify-content-center align-items-center">
+        <img src="/static/images/Training_sample/OBC_help1.png" alt="Helper Image">
+    </div>
+        <p>However, the image seems to align best with the face of the dog on the left. <br>
+            Therefore, it's likely that this part is what triggered the model.</p>
+
+
+    </form>
+        <div class="card-body p-md-4 d-flex flex-row justify-content-center align-items-center">
+        <a href="/training/1"> Previous </a> - <a href="/training/3"> Next </a>
+    </div>
+
+    </div>
+    {% endif %}
+
+</div>
+<script>
+    var selectedImage = null;
+
+    function selectImage(event, id) {
+        var img = document.getElementById(id);
+        if (selectedImage === img) {
+            document.getElementById('selectedImage').value = id;
+            document.getElementById('HumanEval').submit();
+        } else {
+            if (selectedImage) {
+                selectedImage.style.border = "";
+            }
+            img.style.border = "5px solid green";
+            selectedImage = img;
+        }
+    }
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+

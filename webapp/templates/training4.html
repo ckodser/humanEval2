@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}
+Training
+{% endblock %}
+
+{% block navitem_home %}
+class="nav-link active" aria-current="page"
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="static/home_styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="static/modify_metadata.js"></script>
+<script type="text/javascript" src="static/library_list.js"></script>
+
+<script>
+</script>
+
+
+<div class="card text-black" style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px">
+    {% if user.is_authenticated%}
+        <p> To summarize the definitions. </p>
+        <p> The <b> Full </b> image, we gave to the model. </p>
+        <div class="card-body p-md-4 d-flex flex-row justify-content-center align-items-center">
+            <img src="/static/images/Training_sample/base_image.png" alt="Reference Image">
+        </div>
+        <p> The image that reflects the pattern that model is searching for.</p>
+        <div class="card-body p-md-4 d-flex flex-row justify-content-center align-items-center">
+            <img src="/static/images/Training_sample/OBC_help1.png" alt="Helper Image">
+        </div>
+
+         <p> Two images that you should find out which area triggered the model.</p>
+
+    <div class="card-body p-md-4 d-flex flex-row justify-content-center align-items-center">
+        <form  id="HumanEval" method="GET" action="/training/5">
+            <div class="img-container" onclick="selectImage(event, 'option0')">
+                <img id="option0" src="/static/images/Training_sample/option0.png" alt="option 0">
+            </div>
+            <div class="img-container" onclick="selectImage(event, 'option1')">
+                 <img id="option1" src="/static/images/Training_sample/option1.png" alt="option 1">
+            </div>
+            <input type="hidden" id="selectedImage" name="selectedImage">
+
+        </form>
+    </div>
+    <p> go to the next stage by double-clicking on the right image.</p>
+    <a href="/training/3"> Previous </a>
+    </div>
+
+    </div>
+    {% endif %}
+
+</div>
+<script>
+    var selectedImage = null;
+
+    function selectImage(event, id) {
+        var img = document.getElementById(id);
+        if (selectedImage === img) {
+            document.getElementById('selectedImage').value = id;
+            document.getElementById('HumanEval').submit();
+        } else {
+            if (selectedImage) {
+                selectedImage.style.border = "";
+            }
+            img.style.border = "5px solid green";
+            selectedImage = img;
+        }
+    }
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+
