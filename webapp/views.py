@@ -74,7 +74,7 @@ def get_average(dic):
     for model in dic:
         count += dic[model]['count']
         summ += dic[model]['accuracy'] * dic[model]['count']
-    return {"accuracy": round(summ / count, 1), "count": count}
+    return {"accuracy": round(summ / count, 1) if count!=0 else 0, "count": count}
 
 
 def get_results(user):
