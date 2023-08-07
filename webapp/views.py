@@ -272,12 +272,12 @@ def settings():
         if current_user.is_admin:
             return render_template(f"setting.html",
                                    taskCount=len(Record.query.filter_by(user_id=current_user.id).all()),
-                                   user=current_user, results=results, models=Mmodels,
+                                   user=current_user, results=results, models=Mmodels+["AVG"],
                                    counts=counts, bins=list(bin_edges), all_user_results=get_all_user_results())
         else:
             return render_template(f"setting.html",
                                    taskCount=len(Record.query.filter_by(user_id=current_user.id).all()),
-                                   user=current_user, results=results, models=Mmodels,
+                                   user=current_user, results=results, models=Mmodels+["AVG"],
                                    counts=counts, bins=list(bin_edges))
 
 
