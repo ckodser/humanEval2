@@ -7,7 +7,7 @@ import string
 from flask import *
 from flask_login import current_user, login_required
 from webapp import db
-from .models import Record, batch_size, Encrypt,User
+from .models import Record, batch_size, Encrypt, User
 from .models import models as Mmodels
 
 views = Blueprint("views", __name__)
@@ -30,6 +30,7 @@ def send_image(id):
     raw = Encrypt.query.filter_by(enc=id).first().raw
     print(raw.lstrip("/"))
     return send_file(raw.lstrip("/"), mimetype='image/png')
+
 
 def get_record_result(record):
     if record.choice == "option0":
@@ -67,19 +68,31 @@ def get_detail(user, pass_num, model):
     return {"accuracy": round(correct / count * 100, 1) if count > 0 else 0, "count": count}
 
 
+def get_average(dic):
+    count = 0
+    summ = 0
+    for model in dic:
+        count += dic[model]['count']
+        summ += dic[model]['accuracy'] * dic[model]['count']
+    return {"accuracy": round(summ / count, 1), "count": count}
+
+
 def get_results(user):
     results = {}
-    for pass_num in ["first pass", "second pass", "third pass"]:
+    for pass_num in ["first pass", "second pass"]:
         results[pass_num] = {}
         for model in Mmodels:
             results[pass_num][model] = get_detail(user, pass_num, model)
+        results[pass_num]["AVG"] = get_average(results[pass_num])
     return results
 
+
 def get_all_user_results():
-    results={}
+    results = {}
     for user in User.query.filter().all():
-        results[user.email]=get_results(user)
+        results[user.email] = get_results(user)
     return results
+
 
 def get_time_deltas(user):
     time_deltas = {}
@@ -262,7 +275,8 @@ def settings():
                                    user=current_user, results=results, models=Mmodels,
                                    counts=counts, bins=list(bin_edges), all_user_results=get_all_user_results())
         else:
-            return render_template(f"setting.html", taskCount=len(Record.query.filter_by(user_id=current_user.id).all()),
+            return render_template(f"setting.html",
+                                   taskCount=len(Record.query.filter_by(user_id=current_user.id).all()),
                                    user=current_user, results=results, models=Mmodels,
                                    counts=counts, bins=list(bin_edges))
 
