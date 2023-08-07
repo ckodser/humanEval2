@@ -23,10 +23,12 @@ class="nav-link active" aria-current="page"
         <form action="/resetTraining" method="post">
             <button type="submit" class="btn btn-primary">reset training</button>
         </form>
+            {% if user.is_admin %}
         ----
         <form action="/removeAllAnswers" method="post">
             <button type="submit" class="btn btn-primary">remove my {{ taskCount }} answers</button>
         </form>
+            {% endif %}
         <br>
         </div>
         {% if user.is_admin %}

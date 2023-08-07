@@ -318,10 +318,10 @@ def submit_answer():
         record.ending_time = datetime.datetime.utcnow()
         current_user.current_task = -1
         db.session.commit()
-        if get_record_result(record):
-            flash(f"Correct", category="success")
-        else:
-            flash(f"Wrong", category="error")
+        # if get_record_result(record):
+        #     flash(f"Correct", category="success")
+        # else:
+        #     flash(f"Wrong", category="error")
         print(record.id, record.user_id, record.ending_time, record.sample)
 
         return redirect("/")
