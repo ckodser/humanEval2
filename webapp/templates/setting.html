@@ -17,7 +17,7 @@ class="nav-link active" aria-current="page"
 
 <div class="card text-black" style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px">
     {% if  user.is_authenticated %}
-{{ user.full_name }}, {{user.email }}, {{user.is_admin}}, 
+Full name:{{ user.full_name }}, Email:{{user.email }}
         <div class="card-body p-md-4 d-flex flex-row justify-content-center align-items-center">
         <br>
         <form action="/resetTraining" method="post">
