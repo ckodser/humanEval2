@@ -1,4 +1,5 @@
 /instance/database.db
 /webapp/static/images/
 !/webapp/static/images/Training_sample
+!/webapp/static/images/Training_sample2
 !/webapp/static/images/vecteezy_finished-rubber-stamp-red-finished-rubber-grunge-stamp-seal_.jpg
