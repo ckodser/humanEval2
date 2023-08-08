@@ -341,3 +341,35 @@ def submit_answer():
         return redirect("/")
     else:
         return redirect("/")
+
+@views.route('/noneOfThem', methods=['POST'])
+@login_required
+def submit_answer_none():
+    if request.method == 'POST' and current_user.current_task != -1:
+        record_id = current_user.current_task
+        record = Record.query.filter_by(id=record_id).first()
+        record.choice = "none"
+        record.ending_time = datetime.datetime.utcnow()
+        current_user.current_task = -1
+        db.session.commit()
+        print(record.id, record.user_id, record.ending_time, record.sample)
+
+        return redirect("/")
+    else:
+        return redirect("/")
+
+@views.route('/bothOfThem', methods=['POST'])
+@login_required
+def submit_answer_both():
+    if request.method == 'POST' and current_user.current_task != -1:
+        record_id = current_user.current_task
+        record = Record.query.filter_by(id=record_id).first()
+        record.choice = "none"
+        record.ending_time = datetime.datetime.utcnow()
+        current_user.current_task = -1
+        db.session.commit()
+        print(record.id, record.user_id, record.ending_time, record.sample)
+
+        return redirect("/")
+    else:
+        return redirect("/")
