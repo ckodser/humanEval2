@@ -61,10 +61,11 @@ def get_detail(user, pass_num, model):
     count = 0
     correct = 0
     for record in records:
-        is_correct = get_record_result(record)
-        if not is_correct is None:
-            correct += is_correct
-            count += 1
+        if User.query.filter(id=record.user_id).first().is_admin == 0:
+            is_correct = get_record_result(record)
+            if not is_correct is None:
+                correct += is_correct
+                count += 1
     return {"accuracy": round(correct / count * 100, 1) if count > 0 else 0, "count": count}
 
 
@@ -74,7 +75,7 @@ def get_average(dic):
     for model in dic:
         count += dic[model]['count']
         summ += dic[model]['accuracy'] * dic[model]['count']
-    return {"accuracy": round(summ / count, 1) if count!=0 else 0, "count": count}
+    return {"accuracy": round(summ / count, 1) if count != 0 else 0, "count": count}
 
 
 def get_results(user):
@@ -90,7 +91,8 @@ def get_results(user):
 def get_all_user_results():
     results = {}
     for user in User.query.filter().all():
-        results[user.email] = get_results(user)
+        if user.is_admin == 0:
+            results[user.email] = get_results(user)
     return results
 
 
@@ -269,15 +271,15 @@ def settings():
         results = get_results(current_user)
         counts, bin_edges = time_deltas_to_bins(get_time_deltas(current_user))
         print(counts, bin_edges)
-        if current_user.is_admin:
+        if current_user.is_admin == 1:
             return render_template(f"setting.html",
                                    taskCount=len(Record.query.filter_by(user_id=current_user.id).all()),
-                                   user=current_user, results=results, models=Mmodels+["AVG"],
+                                   user=current_user, results=results, models=Mmodels + ["AVG"],
                                    counts=counts, bins=list(bin_edges), all_user_results=get_all_user_results())
         else:
             return render_template(f"setting.html",
                                    taskCount=len(Record.query.filter_by(user_id=current_user.id).all()),
-                                   user=current_user, results=results, models=Mmodels+["AVG"],
+                                   user=current_user, results=results, models=Mmodels + ["AVG"],
                                    counts=counts, bins=list(bin_edges))
 
 
@@ -311,6 +313,21 @@ def removeAllAnswers():
         return redirect("/")
 
 
+@views.route('/ignoreAnswers/<user_email>', methods=['POST'])
+@login_required
+def ignoreUser(user_email):
+    if request.method == 'POST':
+        print('/ignoreAnswers/<user_email>', user_email)
+        user = User.query.filter_by(email=user_email).first()
+        if user.is_admin == 0:
+            user.is_admin = -1
+        if user.is_admin == -1:
+            user.is_admin = 0
+
+        db.session.commit()
+        return redirect("/settings")
+
+
 @views.route('/add_batch', methods=['POST'])
 @login_required
 def addBatch():
@@ -342,6 +359,7 @@ def submit_answer():
     else:
         return redirect("/")
 
+
 @views.route('/noneOfThem', methods=['POST'])
 @login_required
 def submit_answer_none():
@@ -357,6 +375,7 @@ def submit_answer_none():
         return redirect("/")
     else:
         return redirect("/")
+
 
 @views.route('/bothOfThem', methods=['POST'])
 @login_required
