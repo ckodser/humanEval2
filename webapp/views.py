@@ -50,7 +50,7 @@ def get_record_result(record):
 def get_detail(user, pass_num, model):
     first_both=Record.query.filter(Record.choice=="none").first()
 
-    if user.is_admin == 0:
+    if user.is_admin <= 0:
         records = Record.query.filter(
             Record.helper.contains(model + "_help"),
             Record.user_id == user.id,
