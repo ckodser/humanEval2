@@ -320,10 +320,8 @@ def ignoreUser():
         user_email=request.form.get("email")
         print('/ignoreAnswers ', user_email)
         user = User.query.filter_by(email=user_email).first()
-        if user.is_admin == 0:
-            user.is_admin = -1
-        if user.is_admin == -1:
-            user.is_admin = 0
+        user.is_admin = -1
+
 
         db.session.commit()
         return redirect("/settings")
