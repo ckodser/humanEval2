@@ -61,7 +61,7 @@ def get_detail(user, pass_num, model):
     count = 0
     correct = 0
     for record in records:
-        if User.query.filter(id=record.user_id).first().is_admin == 0:
+        if User.query.filter(User.id==record.user_id).first().is_admin == 0:
             is_correct = get_record_result(record)
             if not is_correct is None:
                 correct += is_correct
