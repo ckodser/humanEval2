@@ -72,13 +72,13 @@ def get_detail(user, pass_num, model):
     correct = 0
     none = 0
     for record in records:
-        if User.query.filter(User.id == record.user_id).first().is_admin <= 0:
+        if User.query.filter(User.id == record.user_id).first().is_admin == 0:
             is_correct = get_record_result(record)
             if not is_correct is None:
                 correct += is_correct
                 count += 1
-        if record.choice in ["none", "both", "noneN", "bothN"]:
-            none += 1
+            if record.choice in ["none", "both", "noneN", "bothN"]:
+                none += 1
     return {"accuracy": round(correct / count * 100, 1) if count > 0 else 0, "count": count, "none": none}
 
 
@@ -106,7 +106,7 @@ def get_results(user):
 def get_all_user_results():
     results = {}
     for user in User.query.filter().all():
-        if user.is_admin <= 0:
+        if user.is_admin == 0:
             results[user.email] = get_results(user)
     return results
 
