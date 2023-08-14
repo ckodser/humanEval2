@@ -48,7 +48,7 @@ def get_record_result(record):
 
 
 def get_detail(user, pass_num, model):
-    first_both=Record.query.filter(Record.choice=="bothOfThem").first()
+    first_both=Record.query.filter(Record.choice=="none").first()
 
     if user.is_admin == 0:
         records = Record.query.filter(
