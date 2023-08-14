@@ -48,15 +48,19 @@ def get_record_result(record):
 
 
 def get_detail(user, pass_num, model):
+    first_both=Record.query.filter(Record.choice=="bothOfThem").first()
+
     if user.is_admin == 0:
         records = Record.query.filter(
             Record.helper.contains(model + "_help"),
             Record.user_id == user.id,
-            Record.pass_num == pass_num, ).all()
+            Record.pass_num == pass_num,
+            Record.starting_time > first_both.starting_time).all()
     else:
         records = Record.query.filter(
             Record.helper.contains(model + "_help"),
-            Record.pass_num == pass_num, ).all()
+            Record.pass_num == pass_num,
+            Record.starting_time > first_both.starting_time).all()
 
     count = 0
     correct = 0
