@@ -77,7 +77,7 @@ def get_detail(user, pass_num, model):
             if not is_correct is None:
                 correct += is_correct
                 count += 1
-        if record.choice == "none":
+        if record.choice in ["none", "both", "noneN", "bothN"]:
             none += 1
     return {"accuracy": round(correct / count * 100, 1) if count > 0 else 0, "count": count, "none": none}
 
@@ -379,7 +379,7 @@ def submit_answer_none():
     if request.method == 'POST' and current_user.current_task != -1:
         record_id = current_user.current_task
         record = Record.query.filter_by(id=record_id).first()
-        record.choice = "none"
+        record.choice = "noneN"
         record.ending_time = datetime.datetime.utcnow()
         current_user.current_task = -1
         db.session.commit()
@@ -396,7 +396,7 @@ def submit_answer_both():
     if request.method == 'POST' and current_user.current_task != -1:
         record_id = current_user.current_task
         record = Record.query.filter_by(id=record_id).first()
-        record.choice = "both"
+        record.choice = "bothN"
         record.ending_time = datetime.datetime.utcnow()
         current_user.current_task = -1
         db.session.commit()

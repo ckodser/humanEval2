@@ -53,7 +53,7 @@ Full name:{{ user.full_name }}, Email:{{user.email }}
       <tr>
       <th scope="row">{{ pass }}</th>
     {%for model in models%}
-        <td>{{ results[pass][model]['accuracy'] }}% <small><small>({{ results[pass][model]['count']}} samples) ({{ results[pass][model]['none']}} none)</small></small></td>
+        <td>{{ results[pass][model]['accuracy'] }}% <small><small>({{ results[pass][model]['count']}} samples)({{ results[pass][model]['none']}} none)</small></small></td>
     {%endfor%}
       </tr>
   {%endfor%}
@@ -84,7 +84,7 @@ Full name:{{ user.full_name }}, Email:{{user.email }}
       <tr>
       <th scope="row">{{ pass }}</th>
     {%for model in models%}
-        <td>{{ all_user_results[user_email][pass][model]['accuracy'] }}% <small><small>({{ all_user_results[user_email][pass][model]['count']}} samples)</small></small></td>
+        <td>{{ all_user_results[user_email][pass][model]['accuracy'] }}% <small><small>({{ all_user_results[user_email][pass][model]['count']}} samples)({{all_user_results[user_email][pass][model]['none']}} none)</small></small></td>
     {%endfor%}
       </tr>
   {%endfor%}
