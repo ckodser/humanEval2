@@ -70,22 +70,27 @@ def get_detail(user, pass_num, model):
 
     count = 0
     correct = 0
+    none = 0
     for record in records:
         if User.query.filter(User.id == record.user_id).first().is_admin <= 0:
             is_correct = get_record_result(record)
             if not is_correct is None:
                 correct += is_correct
                 count += 1
-    return {"accuracy": round(correct / count * 100, 1) if count > 0 else 0, "count": count}
+        if record.choice == "none":
+            none += 1
+    return {"accuracy": round(correct / count * 100, 1) if count > 0 else 0, "count": count, "none": none}
 
 
 def get_average(dic):
     count = 0
     summ = 0
+    none = 0
     for model in dic:
         count += dic[model]['count']
         summ += dic[model]['accuracy'] * dic[model]['count']
-    return {"accuracy": round(summ / count, 1) if count != 0 else 0, "count": count}
+        none += dic[model]['none']
+    return {"accuracy": round(summ / count, 1) if count != 0 else 0, "count": count, "none": none}
 
 
 def get_results(user):
@@ -391,7 +396,7 @@ def submit_answer_both():
     if request.method == 'POST' and current_user.current_task != -1:
         record_id = current_user.current_task
         record = Record.query.filter_by(id=record_id).first()
-        record.choice = "none"
+        record.choice = "both"
         record.ending_time = datetime.datetime.utcnow()
         current_user.current_task = -1
         db.session.commit()
