@@ -64,7 +64,11 @@ Full name:{{ user.full_name }}, Email:{{user.email }}
 
         {% if user.is_admin == 1  %}
 {% for user_email in all_user_results.keys() %}
-    <a href="/ignoreAnswers/{{ user_email }}"> ignore </a>
+    <form action="/ignoreAnswers" method="post">
+        <input type="hidden" name="email" value="{{ user_email }}">
+        <button type="submit">Ignore {{ user_email }}</button>
+    </form>
+
         <div class=" p-md-4 d-flex flex-row justify-content-center align-items-center" >
             <table  class="table table-dark">
 <thead class="thead-light">

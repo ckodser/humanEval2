@@ -313,11 +313,12 @@ def removeAllAnswers():
         return redirect("/")
 
 
-@views.route('/ignoreAnswers/<user_email>', methods=['POST'])
+@views.route('/ignoreAnswers', methods=['POST'])
 @login_required
-def ignoreUser(user_email):
+def ignoreUser():
     if request.method == 'POST':
-        print('/ignoreAnswers/<user_email>', user_email)
+        user_email=request.form.get("email")
+        print('/ignoreAnswers ', user_email)
         user = User.query.filter_by(email=user_email).first()
         if user.is_admin == 0:
             user.is_admin = -1
