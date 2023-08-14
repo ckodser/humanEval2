@@ -48,24 +48,30 @@ def get_record_result(record):
 
 
 def get_detail(user, pass_num, model):
-    first_both=Record.query.filter(Record.choice=="none").first()
+    all_none_query = Record.query.filter(Record.choice == "none").all()
+    first_both_end = None
+    for record in all_none_query:
+        if first_both_end is None:
+            first_both_end = record.ending_time
+        else:
+            first_both_end = min(first_both_end, record.ending_time)
 
     if user.is_admin <= 0:
         records = Record.query.filter(
             Record.helper.contains(model + "_help"),
             Record.user_id == user.id,
             Record.pass_num == pass_num,
-            Record.starting_time > first_both.starting_time).all()
+            Record.starting_time > first_both_end).all()
     else:
         records = Record.query.filter(
             Record.helper.contains(model + "_help"),
             Record.pass_num == pass_num,
-            Record.starting_time > first_both.starting_time).all()
+            Record.starting_time > first_both_end).all()
 
     count = 0
     correct = 0
     for record in records:
-        if User.query.filter(User.id==record.user_id).first().is_admin <= 0:
+        if User.query.filter(User.id == record.user_id).first().is_admin <= 0:
             is_correct = get_record_result(record)
             if not is_correct is None:
                 correct += is_correct
@@ -321,11 +327,10 @@ def removeAllAnswers():
 @login_required
 def ignoreUser():
     if request.method == 'POST':
-        user_email=request.form.get("email")
+        user_email = request.form.get("email")
         print('/ignoreAnswers ', user_email)
         user = User.query.filter_by(email=user_email).first()
         user.is_admin = -1
-
 
         db.session.commit()
         return redirect("/settings")
