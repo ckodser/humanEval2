@@ -1,4 +1,4 @@
-/instance/database.db
+/instance/databaseNew.db
 /webapp/static/images/
 !/webapp/static/images/Training_sample
 !/webapp/static/images/Training_sample2

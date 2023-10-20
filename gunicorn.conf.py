@@ -1,4 +1,4 @@
-bind = "0.0.0.0:8000"
-workers = 4
+bind = "127.0.0.1:5003"
+workers = 6
 accesslog = "-"
 errorlog = "-"

@@ -48,25 +48,17 @@ def get_record_result(record):
 
 
 def get_detail(user, pass_num, model):
-    all_none_query = Record.query.filter(Record.choice == "none").all()
-    first_both_end = None
-    for record in all_none_query:
-        if first_both_end is None:
-            first_both_end = record.ending_time
-        else:
-            first_both_end = min(first_both_end, record.ending_time)
+    print(user.full_name, user.is_admin)
 
     if user.is_admin <= 0:
         records = Record.query.filter(
             Record.helper.contains(model + "_help"),
             Record.user_id == user.id,
-            Record.pass_num == pass_num,
-            Record.starting_time > first_both_end).all()
+            Record.pass_num == pass_num).all()
     else:
         records = Record.query.filter(
             Record.helper.contains(model + "_help"),
-            Record.pass_num == pass_num,
-            Record.starting_time > first_both_end).all()
+            Record.pass_num == pass_num).all()
 
     count = 0
     correct = 0

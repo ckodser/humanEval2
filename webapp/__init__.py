@@ -13,11 +13,8 @@ DB_NAME = "database.db"
 
 def create_app():
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = "ckodser1380"
+    app.config["SECRET_KEY"] = None # change this secret key
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
-    # app.config['SQLALCHEMY_POOL_SIZE'] = 10
-    # app.config['SQLALCHEMY_POOL_TIMEOUT'] = 10
-    # app.config['SQLALCHEMY_POOL_RECYCLE'] = 3600
 
     from .views import views
     from .auth import auth
